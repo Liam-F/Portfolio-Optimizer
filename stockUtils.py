@@ -23,8 +23,6 @@ Use Yahoo Finance API to retreive CSV file for daily stock data
 Returns daily Adj Close values to pandas DataFrame
 '''
 def get_data(symbols, dates):
-
-	#Global variable for the number of assets in portfolio 
 	global noa
 	noa = len(symbols)
 
@@ -48,8 +46,6 @@ Given DataFrame of daily Adj Close values calculate and
 Return daily returns 
 '''
 def get_daily_returns(df):
-
-	#Define dailyReturns of each stock in portfolio as global variable
 	global dailyReturns
 	dailyReturns = np.log(df / df.shift(1))
 
@@ -64,15 +60,12 @@ Given a weight allocations for a portfolio return:
 	[2]Sharpe Ratio of the Portfolio
 '''
 def statistics(weights):
-
-	#To be type safe because weights may be passed in as a list
 	weights = np.array(weights)
 
 	#Simplified Sharpe ratio assuming that the risk free rate is zero 
 	expectedPortRet = np.sum(dailyReturns.mean() * weights) * TRADING_DAYS_PER_YEAR
 	expectedPortVolit = np.sqrt(np.dot(weights.T, np.dot(dailyReturns.cov() * TRADING_DAYS_PER_YEAR, weights)))
 	sharpeRatio = expectedPortRet / expectedPortVolit
-
 	return np.array([expectedPortRet,expectedPortVolit,sharpeRatio])
 
 '''
@@ -80,7 +73,6 @@ Plots results of various random portfolio weights (monte carlo simulation), the 
 
 '''
 def plot_data(numberOfSims, targetRets, targetVolits, resultSharpe, resultVar):
-
 	expectedPortRet = []
 	expectedPortVolit = []
 
@@ -130,7 +122,6 @@ Returns optimized portfolio weights
 
 '''
 def optimize_portfolio(numberOfSims, target):
-
 	#Fix a target return for the portfolio and we find the min volitality
 	targetRets = np.linspace(0.0,target,50)
 	targetVolits = []
@@ -141,7 +132,6 @@ def optimize_portfolio(numberOfSims, target):
 
 	#Use evenly distributed weights as the inital starting point 
 	initWeights = noa * [1.0 / noa]
-
 
 	#Optimize Portfolio weights for the LOWEST variance (risk)
 	constraints = ({'type': 'eq', 'fun': lambda x: (np.sum(x) - 1)})
@@ -168,7 +158,7 @@ def optimize_portfolio(numberOfSims, target):
 
 '''
 The first function we want to minimize is the negative of the sharpe ratio. We want to find the max sharpe ratio 
-The secodn is the volatility of the portfolio
+The second is the volatility of the portfolio
 '''
 def min_func_sharpe(weights): 
 	return -(statistics(weights)[2])
