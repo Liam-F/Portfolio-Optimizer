@@ -1,7 +1,7 @@
 # Portfolio-Optimizer
 Statistical analysis tool that optimizes asset allocations of a stock portfolio to minimize volatility and maximize expected returns.
 # Walkthrough
-With Python 2.7 installed on your local environment run the program as such.
+With Python 2.7 on your local environment run the program as such.
 
 ![alt tag](https://raw.githubusercontent.com/nav97/Portfolio-Optimizer/master/Screenshots/Capture1.PNG)
 
