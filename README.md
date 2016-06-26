@@ -5,7 +5,7 @@ With Python 2.7 on your local environment run the program as such.
 
 ![alt tag](https://raw.githubusercontent.com/nav97/Portfolio-Optimizer/master/Screenshots/Capture1.PNG)
 
-Once launched you will be prompted to enter information as per the format that follows in the example below. Start date and end date are used to specify the time frame for which the data is analyzed. For a realistic use case scenario the end date would be today's date so that the algorithm can determine the best asset allocation using all the data available at the time.
+Once launched you will be prompted to enter information as per the format that follows in the example below. Start date and end date are used to specify the time frame for which the data is analyzed. For a realistic use case the end date would be today's date so that the algorithm can determine the best asset allocation using all the data available at the time.
 
 ![alt tag](https://raw.githubusercontent.com/nav97/Portfolio-Optimizer/master/Screenshots/Capture2.PNG)
 
@@ -14,5 +14,4 @@ Once executed you will be presented a graph. Each dot is a randomly generated po
 ![alt tag](https://raw.githubusercontent.com/nav97/Portfolio-Optimizer/master/Screenshots/Capture4.PNG)
 
 #Libraries Required
-
 SciPy - open-source software for mathematics, science, and engineering (pandas, matplotlib, NumPy)
