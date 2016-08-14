@@ -5,9 +5,13 @@ import stockUtils
 
 if (__name__ == "__main__"):
 
-	#portfolio ticker input
-	rawInput = raw_input("Enter all the stocks in your portfolio seperated by commas: ")
-	symbols = rawInput.split(',')
+	symbols = []
+
+	#Have to have min. 3 stocks and no duplicates
+	while ((len(symbols) < 3) or len(symbols) != len(set(symbols))):
+		print("\nYou must enter at least three unique stocks")
+		rawInput = raw_input("Enter all the stocks in your portfolio seperated by commas: ")
+		symbols = rawInput.split(',')
 
 	#Obtain data from these dates
 	startDate = raw_input("Enter start date (YYYY-MM-DD): ") 
@@ -15,7 +19,7 @@ if (__name__ == "__main__"):
 	dates = pd.date_range(startDate, endDate)
 
 	#Obtain target portfolio return from the user
-	target = float(raw_input("Enter the target return as a decimal percentage value: "))
+	target = float(raw_input("Enter the target return as a decimal value: "))
 
 	try:
 		adjClose = stockUtils.get_data(symbols, dates)
@@ -26,7 +30,9 @@ if (__name__ == "__main__"):
 		stockUtils.initPortfolio(len(symbols), dailyReturns)
 		result = stockUtils.optimize_portfolio(numberOfSims = 5000, target = target)
 	except Exception:
-		print("\n\nSorry, it seems something went wrong. \nA stock's symbol may have been enttered incorrectly or an invalid date range was selected. \nPlease try again.")
+		print("\n\nSorry, it seems something went wrong. \nA symbol may have been entered incorrectly or an invalid date range was selected. \nPlease try again.")
+		sys.exit()
+
 
 	#Output Results
 	print
