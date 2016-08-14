@@ -17,12 +17,16 @@ if (__name__ == "__main__"):
 	#Obtain target portfolio return from the user
 	target = float(raw_input("Enter the target return as a decimal percentage value: "))
 
-	adjClose = stockUtils.get_data(symbols, dates)
-	dailyReturns = stockUtils.get_daily_returns(adjClose)
+	try:
+		adjClose = stockUtils.get_data(symbols, dates)
+		dailyReturns = stockUtils.get_daily_returns(adjClose)
 
-	#target is the targeted return value (as a decimal percentage) that you want to find the min risk portfolio for
-	#lower target usually results in more evenly distributed weights
-	result = stockUtils.optimize_portfolio(numberOfSims = 5000, target = target)
+		#target is the targeted return value (as a decimal percentage) that you want to find the min risk portfolio for
+		#lower target usually results in more evenly distributed weights
+		stockUtils.initPortfolio(len(symbols), dailyReturns)
+		result = stockUtils.optimize_portfolio(numberOfSims = 5000, target = target)
+	except Exception:
+		print("\n\nSorry, it seems something went wrong. \nA stock's symbol may have been enttered incorrectly or an invalid date range was selected. \nPlease try again.")
 
 	#Output Results
 	print

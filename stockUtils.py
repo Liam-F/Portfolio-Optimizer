@@ -4,12 +4,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize as spo
 
-'''
-Global Variables
-	noa: number of assets in portfolio
-	dailyReturns: dataframe containing the log of the daily returns for each asset
-'''
-
 #Defining Constants
 TRADING_DAYS_PER_YEAR = 252
 MONTHS_PER_YEAR = 12
@@ -19,12 +13,21 @@ MINUTES_PER_DAY = 24.0 * 60.0
 SECONDS_PER_DAY = MINUTES_PER_DAY * 60.0
 
 '''
+Global Variables
+	noa: number of assets in portfolio
+	dailyReturns: dataframe containing the log of the daily returns for each asset
+'''
+def initPortfolio(numberOfAssets, dfDailyReturns):
+	global noa
+	global dailyReturns
+	noa = numberOfAssets
+	dailyReturns = dfDailyReturns
+
+'''
 Use Yahoo Finance API to retreive CSV file for daily stock data 
 Returns daily Adj Close values to pandas DataFrame
 '''
 def get_data(symbols, dates):
-	global noa
-	noa = len(symbols)
 
 	df = pd.DataFrame(index = dates)
 
@@ -46,7 +49,6 @@ Given DataFrame of daily Adj Close values calculate and
 Return daily returns 
 '''
 def get_daily_returns(df):
-	global dailyReturns
 	dailyReturns = np.log(df / df.shift(1))
 
 	#with daily returns since the first row will be zero we just discard it
