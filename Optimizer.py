@@ -18,9 +18,6 @@ if (__name__ == "__main__"):
 	endDate = raw_input("Enter end date (YYYY-MM-DD): ") 
 	dates = pd.date_range(startDate, endDate)
 
-	#Obtain target portfolio return from the user
-	target = float(raw_input("Enter the target return as a decimal value: "))
-
 	try:
 		adjClose = stockUtils.get_data(symbols, dates)
 		dailyReturns = stockUtils.get_daily_returns(adjClose)
@@ -28,7 +25,7 @@ if (__name__ == "__main__"):
 		#target is the targeted return value (as a decimal percentage) that you want to find the min risk portfolio for
 		#lower target usually results in more evenly distributed weights
 		stockUtils.initPortfolio(len(symbols), dailyReturns)
-		result = stockUtils.optimize_portfolio(numberOfSims = 5000, target = target)
+		result = stockUtils.optimize_portfolio(numberOfSims = 2000)
 	except Exception:
 		print("\n\nSorry, it seems something went wrong. \nA symbol may have been entered incorrectly or an invalid date range was selected. \nPlease try again.")
 		sys.exit()
@@ -40,5 +37,5 @@ if (__name__ == "__main__"):
 	print ('Expected Returns: {0} \nExpected Volatility: {1} \nSharpe Ratio: {2}'.format(stockUtils.statistics(result[0])[0], stockUtils.statistics(result[0])[1], stockUtils.statistics(result[0])[2]))
 
 	print 
-	print ('\nTarget Return Portfolio (Red Star){0}'.format(result[1]))
+	print ('\nMaximum Sharpe Ratio Portfolio (Red Star){0}'.format(result[1]))
 	print ('Expected Returns: {0} \nExpected Volatility: {1} \nSharpe Ratio: {2}'.format(stockUtils.statistics(result[1])[0], stockUtils.statistics(result[1])[1], stockUtils.statistics(result[1])[2]))

@@ -74,7 +74,7 @@ def statistics(weights):
 Plots results of various random portfolio weights (monte carlo simulation), the optomized portfolios, the efficent frontier 
 
 '''
-def plot_data(numberOfSims, targetRets, targetVolits, resultSharpe, resultVar):
+def plot_data(numberOfSims, targetRets, targetVolits, resultVar, resultSharpe):
 	expectedPortRet = []
 	expectedPortVolit = []
 
@@ -123,23 +123,23 @@ Returns optimized portfolio weights
 [1] = weights for portfolio with lowest variance for the desired target return value 
 
 '''
-def optimize_portfolio(numberOfSims, target):
-	#Fix a target return for the portfolio and we find the min volitality
-	targetRets = np.linspace(0.0,target,50)
-	targetVolits = []
+def optimize_portfolio(numberOfSims):
 
 	#Defining bounds for optimization
 	#Bounds to be [0,1] for any given weight 
 	bounds = tuple((0, 1) for x in range(noa))
+	constraints = ({'type': 'eq', 'fun': lambda x: (np.sum(x) - 1)})
 
 	#Use evenly distributed weights as the inital starting point 
 	initWeights = noa * [1.0 / noa]
-
-	#Optimize Portfolio weights for the LOWEST variance (risk)
-	constraints = ({'type': 'eq', 'fun': lambda x: (np.sum(x) - 1)})
-	resultVar = spo.minimize(min_func_variance, initWeights, method = 'SLSQP', bounds = bounds, constraints = constraints)
+	
+	#optimize portoflios
+	optSharpe = spo.minimize(min_func_sharpe, initWeights, method = 'SLSQP', bounds = bounds, constraints = constraints)
+	optVariance = spo.minimize(min_func_variance, initWeights, method = 'SLSQP', bounds = bounds, constraints = constraints)
 
 	#Building Efficent Frontier
+	targetRets = np.linspace(0.0,(statistics(optSharpe['x'])[0]),50)
+	targetVolits = []
 	for targetRet in targetRets:
 
 		#Defining optimization constraints as a dictionary 
@@ -147,16 +147,16 @@ def optimize_portfolio(numberOfSims, target):
 		cons = ({'type': 'eq', 'fun': lambda x: (np.sum(x) - 1)},
 				   	   {'type': 'eq', 'fun': lambda x: statistics(x)[0] - targetRet})
 
-		resultSharpe = spo.minimize(min_func_variance, initWeights, method = 'SLSQP', bounds = bounds, constraints = cons)
+		res = spo.minimize(min_func_variance, initWeights, method = 'SLSQP', bounds = bounds, constraints = cons)
 
 		#Creating points for efficent frontier
-		targetVolits.append(resultSharpe['fun'])
+		targetVolits.append(res['fun'])
 
 	#resultSharpe now holds the result of weights for the portfolio that has the highest sharpe ratio FOR the specified target
 	targetVolits = np.array(targetVolits)
 
-	plot_data(numberOfSims, targetRets, targetVolits, resultSharpe, resultVar)
-	return resultVar['x'].round(4), resultSharpe['x'].round(4)
+	plot_data(numberOfSims, targetRets, targetVolits, optVariance, optSharpe)
+	return optVariance['x'].round(4), optSharpe['x'].round(4)
 
 '''
 The first function we want to minimize is the negative of the sharpe ratio. We want to find the max sharpe ratio 
