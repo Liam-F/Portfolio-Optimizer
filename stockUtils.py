@@ -24,7 +24,7 @@ def initPortfolio(numberOfAssets, dfDailyReturns):
 	dailyReturns = dfDailyReturns
 
 '''
-Use Yahoo Finance API to retreive CSV file for daily stock data 
+Use Yahoo Finance API to retrieve CSV file for daily stock data 
 Returns daily Adj Close values to pandas DataFrame
 '''
 def get_data(symbols, dates):
@@ -71,7 +71,7 @@ def statistics(weights):
 	return np.array([expectedPortRet,expectedPortVolit,sharpeRatio])
 
 '''
-Plots results of various random portfolio weights (monte carlo simulation), the optomized portfolios, the efficent frontier 
+Plots results of various random portfolio weights (Monte Carlo simulation), the optimized portfolios, the efficient frontier 
 
 '''
 def plot_data(numberOfSims, targetRets, targetVolits, resultVar, resultSharpe):
@@ -97,16 +97,16 @@ def plot_data(numberOfSims, targetRets, targetVolits, resultVar, resultSharpe):
 	expectedPortVolit = np.array(expectedPortVolit)
 
 	#Plot results of the simulation and optimization
-	#Colour the data points based on their sharpe ratio (simplified for risk free rate of return = 0)
+	#Colour the data points based on their Sharpe ratio (simplified for risk free rate of return = 0)
 	plt.figure(figsize=(8, 4))
 
 	#Random Portfolios from the simulation
 	plt.scatter(expectedPortVolit, expectedPortRet, c = expectedPortRet / expectedPortVolit, marker='o')
-	#The Efficent Frontier
+	#The Efficient Frontier
 	plt.scatter(targetVolits, targetRets, c = targetRets / targetVolits, marker = 'x')
 	#Min Variance Portfolio shown as yellow star
 	plt.plot(statistics(resultVar['x'])[1], statistics(resultVar['x'])[0], 'y*', markersize = 20.0)
-	#Max Sharpe Ratio to meet target return with lowest volitality shown as red star
+	#Max Sharpe Ratio to meet target return with lowest volatility shown as red star
 	plt.plot(statistics(resultSharpe['x'])[1], statistics(resultSharpe['x'])[0], 'r*', markersize = 20.0)
 
 	plt.grid(True)
@@ -130,14 +130,14 @@ def optimize_portfolio(numberOfSims):
 	bounds = tuple((0, 1) for x in range(noa))
 	constraints = ({'type': 'eq', 'fun': lambda x: (np.sum(x) - 1)})
 
-	#Use evenly distributed weights as the inital starting point 
+	#Use evenly distributed weights as the initial starting point 
 	initWeights = noa * [1.0 / noa]
 	
-	#optimize portoflios
+	#optimize portfolios
 	optSharpe = spo.minimize(min_func_sharpe, initWeights, method = 'SLSQP', bounds = bounds, constraints = constraints)
 	optVariance = spo.minimize(min_func_variance, initWeights, method = 'SLSQP', bounds = bounds, constraints = constraints)
 
-	#Building Efficent Frontier
+	#Building Efficient Frontier
 	targetRets = np.linspace(0.0,(statistics(optSharpe['x'])[0]),50)
 	targetVolits = []
 	for targetRet in targetRets:
@@ -149,17 +149,17 @@ def optimize_portfolio(numberOfSims):
 
 		res = spo.minimize(min_func_variance, initWeights, method = 'SLSQP', bounds = bounds, constraints = cons)
 
-		#Creating points for efficent frontier
+		#Creating points for efficient frontier
 		targetVolits.append(res['fun'])
 
-	#resultSharpe now holds the result of weights for the portfolio that has the highest sharpe ratio FOR the specified target
+	#resultSharpe now holds the result of weights for the portfolio that has the highest Sharpe ratio FOR the specified target
 	targetVolits = np.array(targetVolits)
 
 	plot_data(numberOfSims, targetRets, targetVolits, optVariance, optSharpe)
 	return optVariance['x'].round(4), optSharpe['x'].round(4)
 
 '''
-The first function we want to minimize is the negative of the sharpe ratio. We want to find the max sharpe ratio 
+The first function we want to minimize is the negative of the Sharpe ratio. We want to find the max Sharpe ratio 
 The second is the volatility of the portfolio
 '''
 def min_func_sharpe(weights): 

@@ -10,7 +10,7 @@ if (__name__ == "__main__"):
 	#Have to have min. 3 stocks and no duplicates
 	while ((len(symbols) < 3) or len(symbols) != len(set(symbols))):
 		print("\nYou must enter at least three unique stocks")
-		rawInput = raw_input("Enter all the stocks in your portfolio seperated by commas: ")
+		rawInput = raw_input("Enter all the stocks in your portfolio separated by commas: ")
 		symbols = rawInput.split(',')
 
 	#Obtain data from these dates
