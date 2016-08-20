@@ -34,8 +34,14 @@ if (__name__ == "__main__"):
 	#Output Results
 	print
 	print ('Minimum Variance Portfolio (Yellow Star){0}'.format(result[0]))
-	print ('Expected Returns: {0} \nExpected Volatility: {1} \nSharpe Ratio: {2}'.format(stockUtils.statistics(result[0])[0], stockUtils.statistics(result[0])[1], stockUtils.statistics(result[0])[2]))
+	print ('Expected Returns: {0} \nExpected Volatility: {1} \nSharpe Ratio: {2}'
+			.format(stockUtils.statistics(result[0])[0], 
+					stockUtils.statistics(result[0])[1], 
+					stockUtils.statistics(result[0])[2]))
 
 	print 
 	print ('\nMaximum Sharpe Ratio Portfolio (Red Star){0}'.format(result[1]))
-	print ('Expected Returns: {0} \nExpected Volatility: {1} \nSharpe Ratio: {2}'.format(stockUtils.statistics(result[1])[0], stockUtils.statistics(result[1])[1], stockUtils.statistics(result[1])[2]))
+	print ('Expected Returns: {0} \nExpected Volatility: {1} \nSharpe Ratio: {2}'
+			.format(stockUtils.statistics(result[1])[0], 
+					stockUtils.statistics(result[1])[1], 
+					stockUtils.statistics(result[1])[2]))
