@@ -24,7 +24,7 @@ if (__name__ == "__main__"):
 
 		#target is the targeted return value (as a decimal percentage) that you want to find the min risk portfolio for
 		#lower target usually results in more evenly distributed weights
-		stockUtils.initPortfolio(len(symbols), dailyReturns)
+		stockUtils.init_Portfolio(len(symbols), dailyReturns)
 		result = stockUtils.optimize_portfolio(numberOfSims = 2000)
 	except Exception:
 		print("\n\nSorry, it seems something went wrong. \nA symbol may have been entered incorrectly or an invalid date range was selected. \nPlease try again.")
