@@ -17,7 +17,7 @@ Global Variables
 	noa: number of assets in portfolio
 	dailyReturns: dataframe containing the log of the daily returns for each asset
 '''
-def initPortfolio(numberOfAssets, dfDailyReturns):
+def init_Portfolio(numberOfAssets, dfDailyReturns):
 	global noa
 	global dailyReturns
 	noa = numberOfAssets
