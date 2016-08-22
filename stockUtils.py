@@ -28,7 +28,6 @@ Use Yahoo Finance API to retrieve CSV file for daily stock data
 Returns daily Adj Close values to pandas DataFrame
 '''
 def get_data(symbols, dates):
-
 	df = pd.DataFrame(index = dates)
 
 	for symbol in symbols:
@@ -50,7 +49,6 @@ Return daily returns
 '''
 def get_daily_returns(df):
 	dailyReturns = np.log(df / df.shift(1))
-
 	#with daily returns since the first row will be zero we just discard it
 	dailyReturns = dailyReturns[1:]
 	return dailyReturns
@@ -63,7 +61,6 @@ Given a weight allocations for a portfolio return:
 '''
 def statistics(weights):
 	weights = np.array(weights)
-
 	#Simplified Sharpe ratio assuming that the risk free rate is zero 
 	expectedPortRet = np.sum(dailyReturns.mean() * weights) * TRADING_DAYS_PER_YEAR
 	expectedPortVolit = np.sqrt(np.dot(weights.T, np.dot(dailyReturns.cov() * TRADING_DAYS_PER_YEAR, weights)))
@@ -120,11 +117,10 @@ Optimize portfolio weights by phrasing the task as a minimization problem
 
 Returns optimized portfolio weights
 [0] = weights for portfolio with minimum variance
-[1] = weights for portfolio with lowest variance for the desired target return value 
+[1] = weights for portfolio with maximum Sharpe ratio
 
 '''
 def optimize_portfolio(numberOfSims):
-
 	#Defining bounds for optimization
 	#Bounds to be [0,1] for any given weight 
 	bounds = tuple((0, 1) for x in range(noa))

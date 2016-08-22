@@ -21,9 +21,6 @@ if (__name__ == "__main__"):
 	try:
 		adjClose = stockUtils.get_data(symbols, dates)
 		dailyReturns = stockUtils.get_daily_returns(adjClose)
-
-		#target is the targeted return value (as a decimal percentage) that you want to find the min risk portfolio for
-		#lower target usually results in more evenly distributed weights
 		stockUtils.init_Portfolio(len(symbols), dailyReturns)
 		result = stockUtils.optimize_portfolio(numberOfSims = 2000)
 	except Exception:
