@@ -15,3 +15,4 @@ Once executed you will be presented a graph. Each dot is a randomly generated po
 
 #Libraries Required
 SciPy - open-source software for mathematics, science, and engineering (pandas, matplotlib, NumPy)
+All these can be isntalled with pip and the simple command: `pip install -r requirements.txt`
