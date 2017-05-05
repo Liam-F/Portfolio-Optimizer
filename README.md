@@ -13,6 +13,7 @@ Once executed you will be presented a graph. Each dot is a randomly generated po
 ![alt tag](https://raw.githubusercontent.com/nav97/Portfolio-Optimizer/master/Screenshots/Capture3.PNG)
 ![alt tag](https://raw.githubusercontent.com/nav97/Portfolio-Optimizer/master/Screenshots/Capture4.PNG)
 
-#Libraries Required
+# Libraries Required
 SciPy - open-source software for mathematics, science, and engineering (pandas, matplotlib, NumPy)
-All these can be isntalled with pip and the simple command: `pip install -r requirements.txt`
+
+All required libraries can be installed with pip and the simple command: `pip install -r requirements.txt`
