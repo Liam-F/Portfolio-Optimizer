@@ -1,4 +1,5 @@
 import sys
+import datetime
 import pandas as pd
 import numpy as np
 import StockUtils
@@ -6,6 +7,8 @@ import StockUtils
 if (__name__ == "__main__"):
 
 	symbols = []
+	end_date = datetime.date.today()
+	start_date = end_date.replace(year=end_date.year - 1)
 
 	#Have to have min. 3 stocks and no duplicates
 	while ((len(symbols) < 3) or len(symbols) != len(set(symbols))):
@@ -14,8 +17,6 @@ if (__name__ == "__main__"):
 		symbols = symbols.split(',')
 
 	#Obtain data from these dates
-	start_date = raw_input("Enter start date (YYYY-MM-DD): ") 
-	end_date = raw_input("Enter end date (YYYY-MM-DD): ") 
 	dates = pd.date_range(start_date, end_date)
 
 	try:

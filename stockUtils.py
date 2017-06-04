@@ -31,16 +31,16 @@ def get_data(symbols, dates):
 	df = pd.DataFrame(index = dates)
 
 	for symbol in symbols:
-		df_temp = pd.read_csv("http://real-chart.finance.yahoo.com/table.csv?s=" + symbol,
-								index_col = 'Date', 
-								parse_dates = True, 
-								usecols = ['Date', 'Adj Close'], 
-								na_values = ['nan'])
-
-		df_temp = df_temp.sort_index()
-		df_temp = df_temp.rename(columns={'Adj Close': symbol})
-
-		df = df.join(df_temp, how = 'inner')
+		print(symbol)
+		df_temp = pd.read_csv("https://www.google.ca/finance/historical?q=" + symbol + "&output=csv",
+							na_values = ['nan'])
+		
+		df_temp.drop(['Open', 'High', 'Low', 'Volume'],inplace=True,axis=1)
+		df_temp.rename(columns = {df_temp.columns[0]:'Date'}, inplace=True)
+		df_temp.rename(columns = {'Close':symbol}, inplace=True)
+		df_temp.set_index([df_temp.columns[0]],inplace=True)
+		df.sort_index(inplace=True)
+		df = df.join(df_temp,how ='inner')
 	return df
 
 '''
